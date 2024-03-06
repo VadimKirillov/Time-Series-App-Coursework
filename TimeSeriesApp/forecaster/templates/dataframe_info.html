@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <h2>{{ filename }}</h2>
+  <p>Количество строк: {{ num_rows }}</p>
+  <p>Количество столбцов: {{ num_columns }}</p>
+  <ul>
+    {% for column in columns %}
+        <li>{{ column }} - {{ df.dtypes[column] }}</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

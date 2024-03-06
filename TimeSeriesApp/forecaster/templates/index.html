@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+    <title>Dataset Info</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Dataset Info</h1>
+
+    <h2>Columns</h2>
+
+    <ul>
+        {% for column, data_type in dataset_info.column_types.items %}
+            <li>{{ column }}: {{ data_type }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>График со значениями третьего столбца</h2>
+
+    <div id="plot"></div>
+
+
+<script>
+var thirdColumnData = dataset_info.values; // данные из третьего столбца
+
+var xData = [];
+var yData = [];
+
+// Создание массивов xData и yData
+for (var i = 0; i < thirdColumnData.length; i++) {
+    xData.push(i); // Используем индексы списка как значения x
+    yData.push(thirdColumnData[i]); // Добавляем значения из списка как значения y
+}
+
+var data = [{
+    x: xData,
+    y: yData,
+    mode: 'lines',
+    type: 'scatter'
+}];
+
+Plotly.newPlot('plot', data);
+</script>
+
+
+</body>
+</html>
