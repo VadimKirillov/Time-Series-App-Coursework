@@ -1,0 +1,70 @@
+/* Стили для заголовков h1 */
+.ex1 {
+    padding: 30px;
+    width: 600px;
+    height: 50px;
+    margin: 10px auto;
+    text-align: center;
+    position: relative;
+}
+
+.ex1 h1 {
+    position: relative;
+}
+
+.ex1 h1:before,
+.ex1 h1:after {
+    content: "";
+    position: absolute;
+    height: 2px;
+    width: calc(50% - 100px); /* Одинаковая ширина для обеих черт */
+    background: rgb(81, 227, 213);
+    margin: 0 auto;
+}
+
+.ex1 h1:before {
+    top: -12px; /* Увеличение расстояния до верхней черты */
+    height: 2px;
+    left: 0;
+    right: 0;
+}
+
+.ex1 h1:after {
+    bottom: -20px; /* Добавление черты снизу от надписи */
+    right: 0;
+    left: 0;
+}
+
+.ex2 {
+    margin-top: 40px; /* Увеличение расстояния до следующего элемента */
+}
+
+/* Стили для заголовков h2 */
+h2 {
+    font-family: 'Times New Roman', serif; /* Название красивого шрифта для h2 */
+    font-size: 24px; /* Размер шрифта */
+    color: #333; /* Цвет текста */
+    margin-bottom: 10px; /* Отступ снизу */
+    margin-left: 20px;
+}
+
+.border {
+    list-style: none;
+    padding: 0;
+}
+
+.border li {
+    font-family: "Trebuchet MS", "Lucida Sans";
+    padding: 7px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-left: 10px solid #f05d22;
+    box-shadow: 2px -2px 5px 0 rgba(0,0,0,.1),
+                 -2px -2px 5px 0 rgba(0,0,0,.1),
+                 2px 2px 5px 0 rgba(0,0,0,.1),
+                -2px 2px 5px 0 rgba(0,0,0,.1);
+    font-size: 20px;
+    letter-spacing: 2px;
+    transition: 0.3s all linear;
+    display: inline-block; /* Добавить этот стиль */
+}

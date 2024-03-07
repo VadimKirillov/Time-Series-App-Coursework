@@ -1,46 +1,97 @@
 <!DOCTYPE html>
+{% load static %}
+<html lang="en">
 <head>
     <title>Dataset Info</title>
+    <link href="{% static 'time_icon.png' %}" rel="icon" type="image/png">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Подключаем файл стилей CSS -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <!-- Подключаем библиотеку Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Dataset Info</h1>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <div class=ex1><h1>Датасет данных по Океанам</h1></div>
 
-    <h2>Columns</h2>
+    <h2 class="ex2">Количество строк: {{ dataset_info.n_rows}}</h2>
+    <h2>Количество столбцов: {{ dataset_info.n_columns}}</h2>
 
-    <ul>
+    <h2>Столбцы датафрейма:</h2>
+
+    <ul class="border">
         {% for column, data_type in dataset_info.column_types.items %}
             <li>{{ column }}: {{ data_type }}</li>
         {% endfor %}
     </ul>
 
-    <h2>График со значениями третьего столбца</h2>
+    <h2 >График со значениями столбца gulfstqe</h2>
+    <div id="plot_gulfstqe"></div>
 
-    <div id="plot"></div>
-
+    <h2>График со значениями столбца gulfstqh</h2>
+    <div id="plot_gulfstqh"></div>
 
 <script>
-var thirdColumnData = dataset_info.values; // данные из третьего столбца
+document.addEventListener('DOMContentLoaded', function() {
+    var thirdColumnData = [];
 
-var xData = [];
-var yData = [];
+    {% for i in dataset_info.gulfstqe %}
+        thirdColumnData.push({{ i | safe }});
+    {% endfor %}
 
-// Создание массивов xData и yData
-for (var i = 0; i < thirdColumnData.length; i++) {
-    xData.push(i); // Используем индексы списка как значения x
-    yData.push(thirdColumnData[i]); // Добавляем значения из списка как значения y
-}
+    console.log(thirdColumnData);
 
-var data = [{
-    x: xData,
-    y: yData,
-    mode: 'lines',
-    type: 'scatter'
-}];
+    var xData = [];
+    var yData = [];
 
-Plotly.newPlot('plot', data);
+    // Создание массивов xData и yData
+    for (var i = 0; i < thirdColumnData.length; i++) {
+        xData.push(i); // Используем индексы списка как значения x
+        yData.push(thirdColumnData[i]); // Добавляем значения из списка как значения y
+    }
+
+    var data = [{
+        x: xData,
+        y: yData,
+        mode: 'lines',
+        type: 'scatter'
+    }];
+
+    Plotly.newPlot('plot_gulfstqe', data);
+});
 </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var thirdColumnData = [];
+
+    {% for i in dataset_info.gulfstqh %}
+        thirdColumnData.push({{ i | safe }});
+    {% endfor %}
+
+    console.log(thirdColumnData);
+
+    var xData = [];
+    var yData = [];
+
+    // Создание массивов xData и yData
+    for (var i = 0; i < thirdColumnData.length; i++) {
+        xData.push(i); // Используем индексы списка как значения x
+        yData.push(thirdColumnData[i]); // Добавляем значения из списка как значения y
+    }
+
+    var data = [{
+        x: xData,
+        y: yData,
+        mode: 'lines',
+        type: 'scatter'
+    }];
+
+    Plotly.newPlot('plot_gulfstqh', data);
+});
+</script>
 
 </body>
 </html>

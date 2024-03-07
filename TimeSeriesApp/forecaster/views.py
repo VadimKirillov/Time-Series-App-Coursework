@@ -7,13 +7,32 @@ from .models import DataFrame
 def dataset_size(request):
     dataset = pd.read_csv('forecaster/csvs/all_streams.csv', sep = ';')
 
-    print(dataset['gulfstqe'].values[:200])
+    data_dictionary = {}
+
+    # Получаем список всех колонок в датасете
+    columns = dataset.columns
+
+    # Для каждой колонки добавляем название колонки и массив значений в словарь
+    for col in columns:
+        data_dictionary[col] = dataset[col].values
+
+    print(data_dictionary)
 
     dataset_info = {
+        'n_columns': dataset.shape[1],
+        'n_rows': dataset.shape[0],
         'columns': dataset.columns.tolist(),
         'column_types': dataset.dtypes.to_dict(),
-        'values': dataset['gulfstqe'].values[:200]
+        'gulfstqe': dataset['gulfstqe'],
+        'gulfstqh': dataset['gulfstqh'],
+        'labseaqe': dataset['labseaqe'],
+        'labseaqh': dataset['labseaqh'],
+        'tropqe': dataset['tropqe'],
+        'tropqh': dataset['tropqh'],
+        'value_columns': data_dictionary,
+
     }
+
 
     #print(dataset_info)
 
