@@ -1,0 +1,79 @@
+{% extends 'top_menu.html' %}
+{% block content %}
+<style>
+#centerdiv {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+#centerdiv ul {
+    display: flex;
+}
+
+#centerdiv ul li {
+    list-style: none;
+    height: 20px;
+    width: 20px;
+    background-color: red;
+    margin: 0 4px;
+    border-radius: 50%;
+    animation: bounce 1s linear infinite;
+}
+
+#centerdiv ul li:nth-child(1) {
+    animation-delay: 0.2s;
+    background-color: #961419;
+}
+
+#centerdiv ul li:nth-child(2) {
+    animation-delay: 0.6s;
+    background-color: #d11c23;
+}
+
+#centerdiv ul li:nth-child(3) {
+    animation-delay: 0.1s;
+    background-color: #e21e25;
+}
+
+#centerdiv ul li:nth-child(4) {
+    animation-delay: 0.8s;
+    background-color: #FF8152;
+}
+
+#centerdiv ul li:nth-child(5) {
+    animation-delay: 0.5s;
+    background-color: #FFC246;
+}
+
+#centerdiv ul li:nth-child(6) {
+    animation-delay: 0.1s;
+    background-color: #F9F871;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-40px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+</style>
+<div id="centerdiv">
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+</div>
+
+{% endblock %}

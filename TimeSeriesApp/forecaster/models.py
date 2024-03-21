@@ -1,8 +1,10 @@
 from django.db import models
 
-class DataFrame(models.Model):
-    csv_file = models.FileField(upload_to='csvs/')
-    filename = models.CharField(max_length=255)
-    num_rows = models.IntegerField()
-    num_columns = models.IntegerField()
+class Dataset(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='datasets/images/', blank=True, null=True)
+    file = models.FileField(upload_to='datasets/files/', blank=True, null=True)
 
+    def __str__(self):
+        return self.name

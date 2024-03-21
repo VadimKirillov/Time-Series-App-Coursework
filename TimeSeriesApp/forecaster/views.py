@@ -1,13 +1,39 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 import pandas as pd
-from .forms import DataFrameForm
-from .models import DataFrame
+from .models import Dataset
+from .forms import DatasetForm
+from django.views.generic import CreateView, UpdateView, DeleteView
+
+
+def dataset_list(request):
+    datasets = Dataset.objects.all()
+    return render(request, 'dataset_list.html', {'datasets': datasets})
+
+class DatasetCreate(CreateView):
+    # Модель куда выполняется сохранение
+    model = Dataset
+    # Класс на основе которого будет валидация полей
+    form_class = DatasetForm
+    # Шаблон с помощью которого
+    #будут выводиться данные
+    template_name = 'create_dataset.html'
+    # На какую страницу будет перенаправление
+    #в случае успешного сохранения формы
+    success_url = '/datasets/'
+
+def home(request):
+    return render(request, 'home.html')
+
+
+def create_dataset(request):
+    return render(request, 'home.html')
 
 
 def dataset_size(request):
-    dataset = pd.read_csv('forecaster/csvs/all_streams.csv', sep = ';')
+    dataset = pd.read_csv('forecaster/csvs/all_streams.csv', sep=';')
 
     data_dictionary = {}
+    HISTORY_LENGTH = 1000
 
     # Получаем список всех колонок в датасете
     columns = dataset.columns
@@ -16,7 +42,18 @@ def dataset_size(request):
     for col in columns:
         data_dictionary[col] = dataset[col].values
 
-    print(data_dictionary)
+    # print(data_dictionary)
+
+    train_data_dictionary = {}  # Словарь для обучающих данных
+    test_data_dictionary = {}  # Словарь для тестовых данных
+
+    for col in data_dictionary.keys():
+        col_data = data_dictionary[col]
+        train_data = col_data[:-HISTORY_LENGTH]
+        test_data = col_data[-HISTORY_LENGTH:]
+
+        train_data_dictionary[col] = train_data
+        test_data_dictionary[col] = test_data
 
     dataset_info = {
         'n_columns': dataset.shape[1],
@@ -30,12 +67,12 @@ def dataset_size(request):
         'tropqe': dataset['tropqe'],
         'tropqh': dataset['tropqh'],
         'value_columns': data_dictionary,
+        'train_values': train_data_dictionary,
+        'test_values': test_data_dictionary,
 
     }
 
-
-    #print(dataset_info)
-
+    # print(dataset_info)
 
     return render(request, 'index.html', {'dataset_info': dataset_info})
 

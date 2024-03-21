@@ -1,18 +1,6 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <title>Dataset Info</title>
-    <link href="{% static 'time_icon.png' %}" rel="icon" type="image/png">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
-    <!-- Подключаем файл стилей CSS -->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
-    <!-- Подключаем библиотеку Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
+{% extends 'top_menu.html' %}
+{% block content %}
+<div class="container">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <div class=ex1><h1>Датасет данных по Океанам</h1></div>
 
@@ -65,33 +53,66 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    var thirdColumnData = [];
+    var trainData = [];
+    var testData = [];
 
-    {% for i in dataset_info.gulfstqh %}
-        thirdColumnData.push({{ i | safe }});
+    {% for i in dataset_info.train_values.gulfstqh %}
+        trainData.push({{ i | safe }});
     {% endfor %}
 
-    console.log(thirdColumnData);
+     {% for i in dataset_info.test_values.gulfstqh %}
+        testData.push({{ i | safe }});
+    {% endfor %}
+
+    // console.log(thirdColumnData);
 
     var xData = [];
     var yData = [];
+    var xData_test = [];
+    var yData_test = [];
 
     // Создание массивов xData и yData
-    for (var i = 0; i < thirdColumnData.length; i++) {
+    for (var i = 0; i < trainData.length; i++) {
         xData.push(i); // Используем индексы списка как значения x
-        yData.push(thirdColumnData[i]); // Добавляем значения из списка как значения y
+        yData.push(trainData[i]); // Добавляем значения из списка как значения y
     }
+
+    for (var i = 0; i < testData.length; i++) {
+        xData_test.push(i + trainData.length); // Используем индексы списка как значения x
+        yData_test.push(testData[i]); // Добавляем значения из списка как значения y
+    }
+
 
     var data = [{
         x: xData,
         y: yData,
         mode: 'lines',
-        type: 'scatter'
+        type: 'scatter',
+        name: 'Train значения'
+    }, {
+        x: xData_test,
+        y: yData_test,
+        mode: 'lines',
+        type: 'scatter',
+        line: {color: 'red'},
+        name: 'Test значения'
     }];
 
-    Plotly.newPlot('plot_gulfstqh', data);
+
+    var layout = {
+    legend: {
+        x: 0,
+        y: 1,
+        yanchor: 'top',
+        font: {
+            size: 14
+        }
+    }
+    };
+
+    Plotly.newPlot('plot_gulfstqh', data, layout);
 });
 </script>
 
-</body>
-</html>
+</div>
+{% endblock %}

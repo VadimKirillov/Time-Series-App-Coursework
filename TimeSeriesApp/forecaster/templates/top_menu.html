@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    {% load static %}
+    <title>Dataset Info</title>
+    <link href="{% static 'time_icon.png' %}" rel="icon" type="image/png">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Подключаем файл стилей CSS -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- Подключаем библиотеку Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+        .nav-link {
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            transform: scale(1.1);
+        }
+        .navbar-nav .nav-link {
+            padding-right: 1.5rem;
+            padding-left: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dataset_list' %}">Датасеты</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dataset_size' %}">Архитектуры</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Прогнозирование</a>
+                    </li>
+
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a class="nav-link" href="#">
+                        Войти
+                        <img src="{% static 'demo_user.png' %}" alt="Demo User" style="width: 40px; height: 40px; border-radius: 50%;">
+                    </a>
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{% static 'rus.png' %}" alt="Русский" id="languageIcon" style="width: 30px; height: 30px;">
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <li>
+                                <a class="dropdown-item" href="#" onclick="changeLanguage('rus.png', 'Русский')">
+                                    <img src="{% static 'rus.png' %}" alt="Русский" style="width: 20px; height: 20px; margin-right: 5px;"> Русский
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" onclick="changeLanguage('eng.png', 'English')">
+                                    <img src="{% static 'eng.png' %}" alt="English" style="width: 20px; height: 20px; margin-right: 5px;"> English
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        function changeLanguage(iconPath, language) {
+            document.getElementById('languageIcon').src = "{% static '' %}" + iconPath;
+            document.getElementById('languageIcon').alt = language;
+        }
+    </script>
+
+    {% block content %}{% endblock %}
+
+</body>
+</html>

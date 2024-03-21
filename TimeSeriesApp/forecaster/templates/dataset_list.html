@@ -1,0 +1,74 @@
+{% extends 'top_menu.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Датасеты</h1>
+        <a href="{% url 'create_dataset_url' %}" class="btn btn-primary">Добавить</a>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for dataset in datasets %}
+        <div class="col">
+            <div class="card h-100 shadow-sm dataset-card">
+                <div class="card-img-top img-wrapper">
+                    {% if dataset.image %}
+                    <img src="{{ dataset.image.url }}" class="card-img-top" alt="{{ dataset.name }}">
+                    {% else %}
+                    <img src="{% static 'default_dataset_image.jpg' %}" class="card-img-top" alt="Default Dataset Image">
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title dataset-name">{{ dataset.name }}</h5>
+                    <p class="card-text">{{ dataset.description|truncatechars:100 }}</p>
+                    <a href="{% url 'dataset_size' %}" class="btn btn-primary">View Dataset</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dataset-card {
+        position: relative; /* Добавляем позиционирование */
+        overflow: hidden; /* Добавляем скрытие элементов, выходящих за границы */
+    }
+
+    .dataset-card .card-img-top {
+        transition: transform 0.3s ease; /* Добавляем анимацию движения картинки */
+    }
+
+    .dataset-card:hover .card-img-top {
+        transform: translateY(-20%); /* Двигаем картинку вверх при наведении */
+    }
+
+    .img-wrapper {
+        height: 200px; /* Ограничиваем высоту обертки изображения */
+        position: relative;
+        overflow: hidden; /* Скрытие избыточной части изображения */
+    }
+
+    .img-wrapper img {
+        width: 100%; /* Ширина изображения занимает всю ширину обертки */
+        height: 100%; /* Заполняем всю доступную высоту обертки */
+        object-fit: cover; /* Растягиваем изображение, сохраняя пропорции */
+    }
+
+    .dataset-name {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #343a40;
+    }
+
+    .card-title {
+        font-size: 1.2rem; /* Увеличиваем размер шрифта названия датасета */
+    }
+    .dataset-card {
+        border-radius: 20px; /* Задаем радиус закругления краев карточки */
+    }
+</style>
+{% endblock %}
